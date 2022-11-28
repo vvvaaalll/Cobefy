@@ -17,7 +17,6 @@ public class SongDto {
 
     private String type;
 
-
     private byte[] data;
 
 }

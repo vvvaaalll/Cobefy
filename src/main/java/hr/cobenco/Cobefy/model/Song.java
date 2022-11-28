@@ -32,9 +32,6 @@ public class Song {
     @Column(name = "song_blob")
     private byte[] data;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "songInfo_id", referencedColumnName = "id")
-    private SongInfo songInfo;
 
     public Song(String fileName, String type, byte[] data) {
         this.fileName = fileName;
