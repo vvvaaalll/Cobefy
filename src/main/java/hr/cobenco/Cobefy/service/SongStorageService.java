@@ -1,106 +1,36 @@
 package hr.cobenco.Cobefy.service;
 
-import hr.cobenco.Cobefy.dto.SongDto;
-import hr.cobenco.Cobefy.model.Song;
-import hr.cobenco.Cobefy.model.SongInfo;
-import hr.cobenco.Cobefy.repository.SongRepository;
+import hr.cobenco.Cobefy.model.SongFile;
+import hr.cobenco.Cobefy.repository.SongFileRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.*;
-import java.util.stream.Stream;
-
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
-import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.SQLException;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
-public class SongStorageService implements FileStorageService{
+public class SongStorageService{
 
-    private final Path root = Paths.get("uploads");
-    private final SongRepository songRepository;
+    private final SongFileRepository songFileRepository;
 
-    public SongDto mapEntityToSongDto(Song song) throws SQLException, IOException {
+    public SongFile store(MultipartFile file) throws IOException {
 
-        SongDto songDto = new SongDto();
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        SongFile songFile = new SongFile(fileName, file.getContentType(), file.getBytes());
 
-        MultipartFile multipartFile;
-
-        String destPath = System.getProperty("java.io.tmpdir");
-
-        songDto.setName(song.getFileName());
-        songDto.setType(song.getType());
-        songDto.setData(song.getData());
-
-
-        return songDto;
+        return songFileRepository.save(songFile);
     }
 
-
-    @Override
-    public void init() {
-        try {
-            Files.createDirectories(root);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not initialize folder for upload!");
-        }
+    public SongFile getFile(long id) {
+        return songFileRepository.findById(id).get();
     }
 
-
-    @Override
-    public void save(MultipartFile file) {
-
-        try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-        } catch (Exception e) {
-            if (e instanceof FileAlreadyExistsException) {
-                throw new RuntimeException("A file of that name already exists.");
-            }
-
-            throw new RuntimeException(e.getMessage());
-        }
-        }
-
-    @Override
-    public Resource load(String filename) {
-        try {
-            Path file = root.resolve(filename);
-            Resource resource = new UrlResource(file.toUri());
-
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            } else {
-                throw new RuntimeException("Could not read the file!");
-            }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Error: " + e.getMessage());
-        }
+    public Stream<SongFile> getAllFiles() {
+        return songFileRepository.findAll().stream();
     }
 
-    @Override
-    public void deleteAll() {
-        FileSystemUtils.deleteRecursively(root.toFile());
-    }
-
-    @Override
-    public Stream<Path> loadAll() {
-        try {
-            return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not load the files!");
-        }
-    }
 }
