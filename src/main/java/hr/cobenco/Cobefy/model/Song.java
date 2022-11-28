@@ -22,12 +22,24 @@ public class Song {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(name = "file_name")
+    private String fileName;
+
+    @Column(name = "type")
+    private String type;
+
+    @Lob
     @Column(name = "song_blob")
-    private Blob songBlob;
+    private byte[] data;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "songInfo_id", referencedColumnName = "id")
     private SongInfo songInfo;
 
+    public Song(String fileName, String type, byte[] data) {
+        this.fileName = fileName;
+        this.type = type;
+        this.data = data;
+    }
 
 }

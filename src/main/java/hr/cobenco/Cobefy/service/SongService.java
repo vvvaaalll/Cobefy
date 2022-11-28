@@ -9,6 +9,7 @@ import hr.cobenco.Cobefy.repository.SongRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,18 +23,15 @@ public class SongService {
     private final SongRepository songRepository;
     private final SongInfoRepository songInfoRepository;
 
-    public SongInfoDto add(final MultipartFile multipartFile,
+    public SongDto add(final MultipartFile multipartFile,
                        final SongInfoDto songInfoDto) throws RuntimeException, IOException, SQLException {
 
-        Song song = new Song();
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        Song song = new Song(fileName, multipartFile.getContentType(), multipartFile.getBytes());
+
         song.setSongInfo(new SongInfo(songInfoDto.getName(), songInfoDto.getArtist()));
-        byte[] bytes = multipartFile.getBytes();
-        Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
 
-        song.setSongBlob(blob);
-
-        this.songRepository.save(song);
-        return songInfoDto;
+        return mapEntityToSongDto(this.songRepository.save(song));
 
     }
 
@@ -46,15 +44,9 @@ public class SongService {
 
         String destPath = System.getProperty("java.io.tmpdir");
 
-        multipartFile = new MockMultipartFile(
-                song.getSongInfo().getName(),
-                song.getSongInfo().getName(),
-                "audio/mpeg",
-                song.getSongBlob().getBinaryStream().readAllBytes()
-        );
-
-
-        songDto.setSongFile(multipartFile);
+        songDto.setName(song.getFileName());
+        songDto.setType(song.getType());
+        songDto.setData(song.getData());
 
 
         return songDto;

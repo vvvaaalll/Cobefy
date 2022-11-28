@@ -26,7 +26,7 @@ public class SongController {
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     @PostMapping(path = "song", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public SongInfoDto addSong(@RequestPart("info") SongInfoDto songInfoDto, @RequestPart("song") MultipartFile multipartFile) throws RuntimeException, SQLException, IOException {
+    public SongDto addSong(@RequestPart("info") SongInfoDto songInfoDto, @RequestPart("song") MultipartFile multipartFile) throws RuntimeException, SQLException, IOException {
         System.out.print(multipartFile.getContentType());
         return this.songService.add(multipartFile, songInfoDto);
 

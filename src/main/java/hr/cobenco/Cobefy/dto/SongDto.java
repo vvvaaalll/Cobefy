@@ -12,6 +12,12 @@ import java.sql.Blob;
 @Data
 public class SongDto {
 
-    private MultipartFile songFile;
+
+    private String name;
+
+    private String type;
+
+
+    private byte[] data;
 
 }
