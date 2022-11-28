@@ -46,7 +46,7 @@ public class SongStorageController {
             List<SongFileDto> files = songStorageService.getAllFiles().map(songFile -> {
                 String fileDownloadUri = ServletUriComponentsBuilder
                         .fromCurrentContextPath()
-                        .path("/files/")
+                        .path("/api/song/file/files/")
                         .path(String.valueOf(songFile.getId()))
                         .toUriString();
 
