@@ -7,7 +7,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.sql.Blob;
 
 @Data
 @NoArgsConstructor
@@ -15,19 +14,28 @@ import java.sql.Blob;
 @Table(name = "song")
 @DynamicInsert
 @DynamicUpdate
-public class Song {
+public class SongFile {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(name = "file_name")
+    private String name;
+
+    @Column(name = "type")
+    private String type;
+
+    @Lob
     @Column(name = "song_blob")
-    private Blob songBlob;
+    private byte[] data;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "songInfo_id", referencedColumnName = "id")
-    private SongInfo songInfo;
 
+    public SongFile(String name, String type, byte[] data) {
+        this.name = name;
+        this.type = type;
+        this.data = data;
+    }
 
 }

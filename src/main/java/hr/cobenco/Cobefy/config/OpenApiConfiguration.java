@@ -28,7 +28,14 @@ public class OpenApiConfiguration {
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
                 .group("Song Management")
-                .pathsToMatch("/**")
+                .pathsToMatch("/api/song/**")
+                .build();
+    }
+    @Bean
+    public GroupedOpenApi publicApiFiles() {
+        return GroupedOpenApi.builder()
+                .group("Song Files Management")
+                .pathsToMatch("/api/song/file/**")
                 .build();
     }
 }

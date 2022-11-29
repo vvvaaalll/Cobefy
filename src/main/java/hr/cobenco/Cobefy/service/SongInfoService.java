@@ -1,16 +1,10 @@
 package hr.cobenco.Cobefy.service;
 
-import hr.cobenco.Cobefy.dto.SongDto;
 import hr.cobenco.Cobefy.dto.SongInfoDto;
-import hr.cobenco.Cobefy.model.Song;
 import hr.cobenco.Cobefy.model.SongInfo;
 import hr.cobenco.Cobefy.repository.SongInfoRepository;
-import hr.cobenco.Cobefy.repository.SongRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.sql.Blob;
 
 @Service
 @RequiredArgsConstructor
