@@ -3,11 +3,9 @@ package hr.cobenco.Cobefy.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-@Data
-public class SongInfoDto {
 
-    @JsonProperty("id")
-    private long id;
+@Data
+public class PostSongInfoDto {
 
     @JsonProperty("song-name")
     private String name;

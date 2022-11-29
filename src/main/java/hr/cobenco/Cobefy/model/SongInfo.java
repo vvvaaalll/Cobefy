@@ -26,6 +26,9 @@ public class SongInfo {
     @Column(name = "artist")
     private String artist;
 
+    @Column(name = "url")
+    private String url;
+
     public SongInfo(String name, String artist){
         this.name = name;
         this.artist = artist;
