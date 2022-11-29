@@ -1,16 +1,12 @@
 package hr.cobenco.Cobefy.controller;
 
 import hr.cobenco.Cobefy.dto.SongFileDto;
-import hr.cobenco.Cobefy.dto.SongInfoDto;
 import hr.cobenco.Cobefy.message.ResponseMessage;
 import hr.cobenco.Cobefy.model.SongFile;
 import hr.cobenco.Cobefy.service.SongStorageService;
-import jdk.jfr.ContentType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

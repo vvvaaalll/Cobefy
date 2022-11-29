@@ -45,6 +45,14 @@ public class SongInfoService {
 
     }
 
+    public SongInfoDto getById(final long id) throws RuntimeException {
+
+        SongInfoDto songInfoDto = new SongInfoDto();
+        songInfoRepository.findById(id).orElseThrow((() -> new RuntimeException("No song with such ID")));
+        return songInfoDto;
+
+    }
+
     public SongInfoDto mapEntityToSongInfoDto(SongInfo songInfo) {
 
         SongInfoDto songInfoDto = new SongInfoDto();

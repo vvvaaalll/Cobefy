@@ -35,7 +35,7 @@ public class OpenApiConfiguration {
     public GroupedOpenApi publicApiFiles() {
         return GroupedOpenApi.builder()
                 .group("Song Files Management")
-                .pathsToMatch("/api/song/file/**")
+                .pathsToMatch("/api/song-file/**")
                 .build();
     }
 }
