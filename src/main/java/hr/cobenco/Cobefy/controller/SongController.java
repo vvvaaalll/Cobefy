@@ -63,6 +63,14 @@ public class SongController {
         songInfoService.delete(id);
     }
 
+    @Operation(description = "Update song info", summary = "change song info")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @PatchMapping(path = "/patch/{id}", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void updateById(@PathVariable long id) {
+        songInfoService.delete(id);
+    }
+
 
 }
 

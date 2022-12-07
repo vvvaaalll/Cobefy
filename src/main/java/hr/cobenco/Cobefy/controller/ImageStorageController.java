@@ -30,9 +30,14 @@ public class ImageStorageController {
     public ResponseEntity<ResponseMessage> uploadSongFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
+            if (file.getContentType().contains("image")) {
 
-            message = String.valueOf(imageStorageService.store(file).getId());
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+                message = String.valueOf(imageStorageService.store(file).getId());
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+            } else {
+                message = "Wrong file type";
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+            }
         } catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + "!";
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
@@ -50,6 +55,7 @@ public class ImageStorageController {
                     .toUriString();
 
             return new ImageFileDto(
+                    imageFile.getId(),
                     imageFile.getName(),
                     fileDownloadUri,
                     imageFile.getType(),

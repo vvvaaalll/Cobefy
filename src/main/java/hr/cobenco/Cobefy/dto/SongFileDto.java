@@ -1,11 +1,15 @@
 package hr.cobenco.Cobefy.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class SongFileDto {
 
+    @JsonProperty("id")
+    private long id;
     @JsonProperty("song-name")
     private String name;
     @JsonProperty("url")

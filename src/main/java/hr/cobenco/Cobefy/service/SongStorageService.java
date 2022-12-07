@@ -32,4 +32,6 @@ public class SongStorageService{
         return songFileRepository.findAll().stream();
     }
 
+    public void delete(long id){ songFileRepository.deleteById(id); }
+
 }
