@@ -10,31 +10,30 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "song_info")
+@Table(name = "image_file")
 @DynamicInsert
 @DynamicUpdate
-public class SongInfo {
-
+public class ImageFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "name")
+    @Column(name = "file_name")
     private String name;
 
-    @Column(name = "artist")
-    private String artist;
+    @Column(name = "type")
+    private String type;
 
-    @Column(name = "song_url")
-    private String songUrl;
+    @Lob
+    @Column(name = "image_blob")
+    private byte[] data;
 
-    @Column(name = "image_url")
-    private String imageUrl;
 
-    public SongInfo(String name, String artist){
+    public ImageFile(String name, String type, byte[] data) {
         this.name = name;
-        this.artist = artist;
+        this.type = type;
+        this.data = data;
     }
 
 }

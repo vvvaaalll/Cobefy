@@ -32,10 +32,18 @@ public class OpenApiConfiguration {
                 .build();
     }
     @Bean
-    public GroupedOpenApi publicApiFiles() {
+    public GroupedOpenApi publicApiSongFiles() {
         return GroupedOpenApi.builder()
                 .group("Song Files Management")
                 .pathsToMatch("/api/song-file/**")
                 .build();
     }
+    @Bean
+    public GroupedOpenApi publicApiImageFiles() {
+        return GroupedOpenApi.builder()
+                .group("Image Files Management")
+                .pathsToMatch("/api/image-file/**")
+                .build();
+    }
+
 }

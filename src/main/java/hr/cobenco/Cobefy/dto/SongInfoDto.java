@@ -15,7 +15,9 @@ public class SongInfoDto {
     @JsonProperty("artist")
     private String artist;
 
-    @JsonProperty("url")
-    private String url;
+    @JsonProperty("song_url")
+    private String songUrl;
+    @JsonProperty("image_url")
+    private String imageUrl;
 
 }

@@ -21,7 +21,8 @@ public class SongInfoService {
         SongInfo songInfo = new SongInfo();
         songInfo.setName(postSongInfoDto.getName());
         songInfo.setArtist(postSongInfoDto.getArtist());
-        songInfo.setUrl(postSongInfoDto.getUrl());
+        songInfo.setSongUrl(postSongInfoDto.getSongUrl());
+        songInfo.setImageUrl(postSongInfoDto.getImageUrl());
 
         return mapEntityToSongInfoDto(this.songInfoRepository.save(songInfo));
     }
@@ -59,13 +60,15 @@ public class SongInfoService {
         songInfoDto.setId(songInfo.getId());
         songInfoDto.setName(songInfo.getName());
         songInfoDto.setArtist(songInfo.getArtist());
-        songInfoDto.setUrl(songInfo.getUrl());
+        songInfoDto.setSongUrl(songInfo.getSongUrl());
+        songInfoDto.setImageUrl(songInfo.getImageUrl());
 
         return songInfoDto;
     }
 
     private SongInfo mapUpdateSongInfoDtoToEntity(final SongInfo songInfoEntity, final SongInfoUpdateDto songInfoUpdateDto) throws RuntimeException {
-        songInfoUpdateDto.getOptionalOfUrl().ifPresent(songInfoEntity::setUrl);
+        songInfoUpdateDto.getOptionalOfSongUrl().ifPresent(songInfoEntity::setSongUrl);
+        songInfoUpdateDto.getOptionalOfImageUrl().ifPresent(songInfoEntity::setImageUrl);
         songInfoUpdateDto.getOptionalOfName().ifPresent(songInfoEntity::setName);
         songInfoUpdateDto.getOptionalOfArtist().ifPresent(songInfoEntity::setArtist);
 
