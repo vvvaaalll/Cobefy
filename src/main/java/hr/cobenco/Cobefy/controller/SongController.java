@@ -2,6 +2,7 @@ package hr.cobenco.Cobefy.controller;
 
 import hr.cobenco.Cobefy.dto.PostSongInfoDto;
 import hr.cobenco.Cobefy.dto.SongInfoDto;
+import hr.cobenco.Cobefy.dto.SongInfoUpdateDto;
 import hr.cobenco.Cobefy.message.ResponseMessage;
 import hr.cobenco.Cobefy.service.SongInfoService;
 import hr.cobenco.Cobefy.service.SongStorageService;
@@ -66,9 +67,9 @@ public class SongController {
     @Operation(description = "Update song info", summary = "change song info")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @PatchMapping(path = "/patch/{id}", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void updateById(@PathVariable long id) {
-        songInfoService.delete(id);
+    @PatchMapping(path = "/patch/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public SongInfoDto updateById(@PathVariable long id, @RequestBody SongInfoUpdateDto songInfo) {
+        return songInfoService.patch(id, songInfo);
     }
 
 

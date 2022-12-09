@@ -14,10 +14,10 @@ public class SongInfoUpdateDto {
     @JsonProperty("artist")
     private Optional<String> optionalOfArtist = Optional.empty();
 
-    @JsonProperty("song_url")
+    @JsonProperty("song-url")
     private Optional<String> optionalOfSongUrl = Optional.empty();
 
-    @JsonProperty("image_url")
+    @JsonProperty("image-url")
     private Optional<String> optionalOfImageUrl = Optional.empty();
 
 

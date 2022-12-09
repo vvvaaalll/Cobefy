@@ -28,9 +28,7 @@ public class SongStorageController {
     public ResponseEntity<ResponseMessage> uploadSongFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
-            if (file.getContentType() == "audio/mpeg") {
-                songStorageService.store(file);
-
+            if (file.getContentType().contains("audio")) {
                 message = String.valueOf(songStorageService.store(file).getId());
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
             } else {

@@ -27,7 +27,7 @@ public class SongInfoService {
         return mapEntityToSongInfoDto(this.songInfoRepository.save(songInfo));
     }
 
-    public SongInfoDto patch(final long id, final SongInfoUpdateDto songInfoUpdateDto) {
+    public SongInfoDto patch(final long id, final SongInfoUpdateDto songInfoUpdateDto) throws RuntimeException {
         return mapEntityToSongInfoDto(this.songInfoRepository
                 .save(mapUpdateSongInfoDtoToEntity(this.songInfoRepository.findById(id).orElseThrow(() -> new RuntimeException("song not found")), songInfoUpdateDto)));
     }
