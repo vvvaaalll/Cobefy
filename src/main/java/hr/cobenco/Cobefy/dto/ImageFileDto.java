@@ -6,11 +6,11 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SongFileDto {
+public class ImageFileDto {
 
     @JsonProperty("id")
     private long id;
-    @JsonProperty("song-name")
+    @JsonProperty("image-name")
     private String name;
     @JsonProperty("url")
     private String url;
@@ -19,7 +19,7 @@ public class SongFileDto {
     @JsonProperty("file-size")
     private long size;
 
-    public SongFileDto(String name, String url, String type, long size) {
+    public ImageFileDto(String name, String url, String type, long size) {
         this.name = name;
         this.url = url;
         this.type = type;

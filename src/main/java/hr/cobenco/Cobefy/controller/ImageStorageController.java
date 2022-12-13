@@ -1,9 +1,9 @@
 package hr.cobenco.Cobefy.controller;
 
-import hr.cobenco.Cobefy.dto.SongFileDto;
+import hr.cobenco.Cobefy.dto.ImageFileDto;
 import hr.cobenco.Cobefy.message.ResponseMessage;
-import hr.cobenco.Cobefy.model.SongFile;
-import hr.cobenco.Cobefy.service.SongStorageService;
+import hr.cobenco.Cobefy.model.ImageFile;
+import hr.cobenco.Cobefy.service.ImageStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,20 +16,22 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
-@RequestMapping("/api/song-file/")
-@RequiredArgsConstructor
-public class SongStorageController {
 
-    private final SongStorageService songStorageService;
+@Controller
+@RequestMapping("/api/image-file/")
+@RequiredArgsConstructor
+public class ImageStorageController {
+
+
+    private final ImageStorageService imageStorageService;
 
     @ResponseBody
     @PostMapping(name = "/upload")
     public ResponseEntity<ResponseMessage> uploadSongFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
-            if (file.getContentType().contains("audio")) {
-                message = String.valueOf(songStorageService.store(file).getId());
+            if (file.getContentType().contains("image")) {
+                message = String.valueOf(imageStorageService.store(file).getId());
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
             } else {
                 message = "Wrong file type";
@@ -43,20 +45,20 @@ public class SongStorageController {
 
     @ResponseBody
     @GetMapping(name = "/files")
-    public ResponseEntity<List<SongFileDto>> getListOfSongFiles() {
-        List<SongFileDto> files = songStorageService.getAllFiles().map(songFile -> {
+    public ResponseEntity<List<ImageFileDto>> getListOfSongFiles() {
+        List<ImageFileDto> files = imageStorageService.getAllFiles().map(imageFile -> {
             String fileDownloadUri = ServletUriComponentsBuilder
                     .fromCurrentContextPath()
-                    .path("/api/song-file/files/")
-                    .path(String.valueOf(songFile.getId()))
+                    .path("/api/image-file/files/")
+                    .path(String.valueOf(imageFile.getId()))
                     .toUriString();
 
-            return new SongFileDto(
-                    songFile.getId(),
-                    songFile.getName(),
+            return new ImageFileDto(
+                    imageFile.getId(),
+                    imageFile.getName(),
                     fileDownloadUri,
-                    songFile.getType(),
-                    songFile.getData().length);
+                    imageFile.getType(),
+                    imageFile.getData().length);
         }).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(files);
@@ -64,13 +66,13 @@ public class SongStorageController {
 
     @ResponseBody
     @GetMapping("/files/{id}")
-    public ResponseEntity<byte[]> getSongFile(@PathVariable long id) {
+    public ResponseEntity<byte[]> getImageFile(@PathVariable long id) {
 
-        SongFile songFile = songStorageService.getFile(id);
+        ImageFile imageFile = imageStorageService.getFile(id);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + songFile.getName() + "\"")
-                .body(songFile.getData());
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageFile.getName() + "\"")
+                .body(imageFile.getData());
     }
 
     @ResponseBody
@@ -79,15 +81,13 @@ public class SongStorageController {
         String message = "";
         try {
 
-            songStorageService.delete(id);
+            imageStorageService.delete(id);
 
-            message = "Song file deleted successfully";
+            message = "Image deleted successfully";
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
-            message = "Could not delete song file";
+            message = "Could not delete image file";
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
         }
     }
-
-
 }

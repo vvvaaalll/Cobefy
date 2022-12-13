@@ -21,12 +21,13 @@ public class SongInfoService {
         SongInfo songInfo = new SongInfo();
         songInfo.setName(postSongInfoDto.getName());
         songInfo.setArtist(postSongInfoDto.getArtist());
-        songInfo.setUrl(postSongInfoDto.getUrl());
+        songInfo.setSongUrl(postSongInfoDto.getSongUrl());
+        songInfo.setImageUrl(postSongInfoDto.getImageUrl());
 
         return mapEntityToSongInfoDto(this.songInfoRepository.save(songInfo));
     }
 
-    public SongInfoDto patch(final long id, final SongInfoUpdateDto songInfoUpdateDto) {
+    public SongInfoDto patch(final long id, final SongInfoUpdateDto songInfoUpdateDto) throws RuntimeException {
         return mapEntityToSongInfoDto(this.songInfoRepository
                 .save(mapUpdateSongInfoDtoToEntity(this.songInfoRepository.findById(id).orElseThrow(() -> new RuntimeException("song not found")), songInfoUpdateDto)));
     }
@@ -45,19 +46,29 @@ public class SongInfoService {
 
     }
 
+    public SongInfoDto getById(final long id) throws RuntimeException {
+
+        SongInfoDto songInfoDto = new SongInfoDto();
+        songInfoRepository.findById(id).orElseThrow((() -> new RuntimeException("No song with such ID")));
+        return songInfoDto;
+
+    }
+
     public SongInfoDto mapEntityToSongInfoDto(SongInfo songInfo) {
 
         SongInfoDto songInfoDto = new SongInfoDto();
         songInfoDto.setId(songInfo.getId());
         songInfoDto.setName(songInfo.getName());
         songInfoDto.setArtist(songInfo.getArtist());
-        songInfoDto.setUrl(songInfo.getUrl());
+        songInfoDto.setSongUrl(songInfo.getSongUrl());
+        songInfoDto.setImageUrl(songInfo.getImageUrl());
 
         return songInfoDto;
     }
 
     private SongInfo mapUpdateSongInfoDtoToEntity(final SongInfo songInfoEntity, final SongInfoUpdateDto songInfoUpdateDto) throws RuntimeException {
-        songInfoUpdateDto.getOptionalOfUrl().ifPresent(songInfoEntity::setUrl);
+        songInfoUpdateDto.getOptionalOfSongUrl().ifPresent(songInfoEntity::setSongUrl);
+        songInfoUpdateDto.getOptionalOfImageUrl().ifPresent(songInfoEntity::setImageUrl);
         songInfoUpdateDto.getOptionalOfName().ifPresent(songInfoEntity::setName);
         songInfoUpdateDto.getOptionalOfArtist().ifPresent(songInfoEntity::setArtist);
 
