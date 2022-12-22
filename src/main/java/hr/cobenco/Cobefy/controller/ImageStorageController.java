@@ -2,7 +2,7 @@ package hr.cobenco.Cobefy.controller;
 
 import hr.cobenco.Cobefy.dto.ImageFileDto;
 import hr.cobenco.Cobefy.message.ResponseMessage;
-import hr.cobenco.Cobefy.model.ImageFile;
+import hr.cobenco.Cobefy.model.storage.ImageFile;
 import hr.cobenco.Cobefy.service.ImageStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

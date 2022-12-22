@@ -2,7 +2,7 @@ package hr.cobenco.Cobefy.controller;
 
 import hr.cobenco.Cobefy.dto.SongFileDto;
 import hr.cobenco.Cobefy.message.ResponseMessage;
-import hr.cobenco.Cobefy.model.SongFile;
+import hr.cobenco.Cobefy.model.storage.SongFile;
 import hr.cobenco.Cobefy.service.SongStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

@@ -3,7 +3,7 @@ package hr.cobenco.Cobefy.service;
 import hr.cobenco.Cobefy.dto.PostSongInfoDto;
 import hr.cobenco.Cobefy.dto.SongInfoDto;
 import hr.cobenco.Cobefy.dto.SongInfoUpdateDto;
-import hr.cobenco.Cobefy.model.SongInfo;
+import hr.cobenco.Cobefy.model.song.SongInfo;
 import hr.cobenco.Cobefy.repository.SongInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

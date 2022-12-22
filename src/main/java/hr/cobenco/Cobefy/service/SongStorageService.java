@@ -1,6 +1,6 @@
 package hr.cobenco.Cobefy.service;
 
-import hr.cobenco.Cobefy.model.SongFile;
+import hr.cobenco.Cobefy.model.storage.SongFile;
 import hr.cobenco.Cobefy.repository.SongFileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
