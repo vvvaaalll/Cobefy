@@ -1,5 +1,7 @@
 package hr.cobenco.Cobefy.controller;
 
+import hr.cobenco.Cobefy.dto.CreateUserDto;
+import hr.cobenco.Cobefy.dto.ToDtoConverter;
 import hr.cobenco.Cobefy.dto.UserDto;
 import hr.cobenco.Cobefy.model.user.User;
 import hr.cobenco.Cobefy.service.UserService;
@@ -20,8 +22,8 @@ public class UserController {
 
 
     @PostMapping("/signup")
-    public void signUpUser(@RequestBody final User user) {
-        this.userService.signUp(user);
+    public void signUpUser(@RequestBody final CreateUserDto createUserDto) {
+        this.userService.signUp(ToDtoConverter.CreateUserToEntity(createUserDto));
     }
 
     @GetMapping

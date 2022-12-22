@@ -20,4 +20,15 @@ public final class ToDtoConverter {
         );
     }
 
+    public static User CreateUserToEntity(final CreateUserDto user) {
+        return new User(
+                user.getUsername(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getAvatarUrl()
+        );
+    }
+
 }

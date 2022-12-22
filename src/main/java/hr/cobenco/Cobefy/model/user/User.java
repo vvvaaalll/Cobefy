@@ -50,4 +50,15 @@ public class User {
             @JoinColumn(name = "USER_ID")}, inverseJoinColumns = {
             @JoinColumn(name = "ROLE_ID")})
     private Set<Role> roles;
+
+    public User (String username, String email,
+                 String password, String firstName,
+                 String lastName, String avatarUrl) {
+      this.username = username;
+      this.email = email;
+      this.password = password;
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.avatarUrl = avatarUrl;
+    }
 }
