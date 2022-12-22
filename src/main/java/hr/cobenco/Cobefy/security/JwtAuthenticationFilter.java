@@ -16,9 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.rpnhma.rpnhma_webApplication.model.Constants.HEADER_STRING;
-import static com.rpnhma.rpnhma_webApplication.model.Constants.TOKEN_PREFIX;
-
+import static hr.cobenco.Cobefy.model.user.Constants.HEADER_STRING;
+import static hr.cobenco.Cobefy.model.user.Constants.TOKEN_PREFIX;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
