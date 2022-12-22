@@ -1,6 +1,5 @@
 package hr.cobenco.Cobefy.config;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
@@ -32,6 +31,7 @@ public class OpenApiConfiguration {
                 .pathsToMatch("/api/song/**")
                 .build();
     }
+
     @Bean
     public GroupedOpenApi publicApiSongFiles() {
         return GroupedOpenApi.builder()
@@ -39,6 +39,7 @@ public class OpenApiConfiguration {
                 .pathsToMatch("/api/song-file/**")
                 .build();
     }
+
     @Bean
     public GroupedOpenApi publicApiImageFiles() {
         return GroupedOpenApi.builder()
@@ -46,5 +47,24 @@ public class OpenApiConfiguration {
                 .pathsToMatch("/api/image-file/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi UsersApi() {
+        return GroupedOpenApi.builder()
+                .group("Users")
+                .pathsToMatch("/users/**")
+
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi AuthApi() {
+        return GroupedOpenApi.builder()
+                .group("Authentication")
+                .pathsToMatch("/token/**")
+
+                .build();
+    }
+
 
 }
