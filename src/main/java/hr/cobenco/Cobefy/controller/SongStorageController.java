@@ -2,8 +2,9 @@ package hr.cobenco.Cobefy.controller;
 
 import hr.cobenco.Cobefy.dto.SongFileDto;
 import hr.cobenco.Cobefy.message.ResponseMessage;
-import hr.cobenco.Cobefy.model.SongFile;
+import hr.cobenco.Cobefy.model.storage.SongFile;
 import hr.cobenco.Cobefy.service.SongStorageService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,11 +18,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping("/api/song-file/")
 @RequiredArgsConstructor
 public class SongStorageController {
 
     private final SongStorageService songStorageService;
+
 
     @ResponseBody
     @PostMapping(name = "/upload")

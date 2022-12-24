@@ -1,4 +1,5 @@
-package hr.cobenco.Cobefy.model;
+package hr.cobenco.Cobefy.model.storage;
+
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,10 +11,11 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "image_file")
+@Table(name = "song")
 @DynamicInsert
 @DynamicUpdate
-public class ImageFile {
+public class SongFile {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,11 +28,11 @@ public class ImageFile {
     private String type;
 
     @Lob
-    @Column(name = "image_blob")
+    @Column(name = "song_blob")
     private byte[] data;
 
 
-    public ImageFile(String name, String type, byte[] data) {
+    public SongFile(String name, String type, byte[] data) {
         this.name = name;
         this.type = type;
         this.data = data;

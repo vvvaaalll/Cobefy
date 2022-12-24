@@ -1,6 +1,6 @@
 package hr.cobenco.Cobefy.repository;
 
-import hr.cobenco.Cobefy.model.SongFile;
+import hr.cobenco.Cobefy.model.storage.SongFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

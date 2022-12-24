@@ -1,4 +1,4 @@
-package hr.cobenco.Cobefy.model;
+package hr.cobenco.Cobefy.model.song;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
