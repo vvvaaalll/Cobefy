@@ -17,7 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/token")
+@RequestMapping("/api/token")
 public class AuthenticationController {
     public String currentUsername;
 

@@ -1,8 +1,8 @@
 package hr.cobenco.Cobefy.security.config;
 
-
 import hr.cobenco.Cobefy.security.JwtAuthenticationEntryPoint;
 import hr.cobenco.Cobefy.security.JwtAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,14 +22,14 @@ import javax.annotation.Resource;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
 
     @Override
     @Bean
@@ -49,31 +49,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs",
-                "/configuration/ui",
-                "/swagger-resources/**",
-                "/configuration/security",
-                "/swagger-ui/**",
-                "/openapi/**",
-                "/bus/v3/api-docs/**",
-                "/v3/api-docs/**",
-                "/webjars/**"
-
-        );
-    }
-
-    @Override
     protected void configure(final HttpSecurity http) throws Exception {
-
         http.cors().and().csrf().disable().
                 authorizeRequests()
                 .antMatchers(
-                        "/token/**",
-                        "/users/**",
-                        "/posts/**",
-                        "/comments/**"
-                ).permitAll()
+                        "/api/token/**",
+                        "/api/users/**",
+                        "/api/song/**",
+                        "/api/song-file/**",
+                        "/api/image-file/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
@@ -87,4 +71,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui/**",
+                "/openapi/**",
+                "/bus/v3/api-docs/**",
+                "/v3/api-docs/**",
+                "/webjars/**"
+
+        );
+    }
 }

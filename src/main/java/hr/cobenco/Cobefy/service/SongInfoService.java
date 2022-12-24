@@ -6,6 +6,7 @@ import hr.cobenco.Cobefy.dto.SongInfoUpdateDto;
 import hr.cobenco.Cobefy.model.song.SongInfo;
 import hr.cobenco.Cobefy.repository.SongInfoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class SongInfoService {
 
     private final SongInfoRepository songInfoRepository;
 
+    @PreAuthorize("hasRole('ADMIN')")
     public SongInfoDto add(final PostSongInfoDto postSongInfoDto) {
         SongInfo songInfo = new SongInfo();
         songInfo.setName(postSongInfoDto.getName());
@@ -27,15 +29,18 @@ public class SongInfoService {
         return mapEntityToSongInfoDto(this.songInfoRepository.save(songInfo));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public SongInfoDto patch(final long id, final SongInfoUpdateDto songInfoUpdateDto) throws RuntimeException {
         return mapEntityToSongInfoDto(this.songInfoRepository
                 .save(mapUpdateSongInfoDtoToEntity(this.songInfoRepository.findById(id).orElseThrow(() -> new RuntimeException("song not found")), songInfoUpdateDto)));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(final long id) throws RuntimeException {
         songInfoRepository.delete(this.songInfoRepository.findById(id).orElseThrow(() -> new RuntimeException("No song with such ID")));
     }
 
+    @PreAuthorize("hasRole('USER')")
     public List<SongInfoDto> getAll() throws RuntimeException {
 
         List<SongInfoDto> usersDto = new ArrayList<SongInfoDto>();
@@ -46,6 +51,7 @@ public class SongInfoService {
 
     }
 
+    @PreAuthorize("hasRole('USER')")
     public SongInfoDto getById(final long id) throws RuntimeException {
 
         SongInfoDto songInfoDto = new SongInfoDto();

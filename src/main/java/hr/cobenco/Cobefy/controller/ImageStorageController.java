@@ -4,6 +4,7 @@ import hr.cobenco.Cobefy.dto.ImageFileDto;
 import hr.cobenco.Cobefy.message.ResponseMessage;
 import hr.cobenco.Cobefy.model.storage.ImageFile;
 import hr.cobenco.Cobefy.service.ImageStorageService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 
 @Controller
+@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping("/api/image-file/")
 @RequiredArgsConstructor
 public class ImageStorageController {
