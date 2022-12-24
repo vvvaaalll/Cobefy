@@ -1,6 +1,6 @@
 package hr.cobenco.Cobefy.controller;
 
-import hr.cobenco.Cobefy.dto.ToDtoConverter;
+import hr.cobenco.Cobefy.dto.Mapper;
 import hr.cobenco.Cobefy.dto.UserDto;
 import hr.cobenco.Cobefy.model.user.AuthToken;
 import hr.cobenco.Cobefy.model.user.LoginUser;
@@ -48,7 +48,7 @@ public class AuthenticationController {
     //    @PreAuthorize("hasRole('USER')")
     @GetMapping("/current-user")
     public ResponseEntity<UserDto> getCurrentUser() {
-        UserDto userDto = ToDtoConverter.userToDto(userService.findOne(currentUsername));
+        UserDto userDto = Mapper.userToDto(userService.findOne(currentUsername));
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 

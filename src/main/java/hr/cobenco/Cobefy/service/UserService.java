@@ -1,6 +1,7 @@
 package hr.cobenco.Cobefy.service;
 
-import hr.cobenco.Cobefy.dto.ToDtoConverter;
+import hr.cobenco.Cobefy.dto.SongInfoDto;
+import hr.cobenco.Cobefy.dto.Mapper;
 import hr.cobenco.Cobefy.dto.UserDto;
 import hr.cobenco.Cobefy.exeptions.UserException;
 import hr.cobenco.Cobefy.model.user.Role;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,6 +30,8 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+
+    private final SongInfoService songInfoService;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -60,7 +64,7 @@ public class UserService implements UserDetailsService {
     public Collection<UserDto> getAll() {
         Collection<User> users = this.userRepository.findAll();
         return users.stream()
-                .map(ToDtoConverter::userToDto)
+                .map(Mapper::userToDto)
                 .collect(Collectors.toList());
     }
 
@@ -69,8 +73,31 @@ public class UserService implements UserDetailsService {
         User user = this.userRepository.findById(id).orElseThrow(
                 () -> new UserException("Can't get. User not found!")
         );
-        return ToDtoConverter.userToDto(user);
+        return Mapper.userToDto(user);
     }
+
+    @PreAuthorize("hasRole('USER')")
+    public List<SongInfoDto> getFavorites(final Long userId) {
+        User user = this.userRepository.findById(userId).orElseThrow(
+                () -> new UserException("Can't get. User not found!")
+        );
+        return user.getFavorites().stream()
+                .map(Mapper::songInfoToDto)
+                .collect(Collectors.toList());
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    public List<SongInfoDto> addToFavorites(final Long userId, final Long songId) {
+        User user = this.userRepository.findById(userId).orElseThrow(
+                () -> new UserException("Can't get. User not found!")
+        );
+         user.getFavorites().add(Mapper.songInfoDtoToEntity(songInfoService.getById(songId)));
+
+         return this.userRepository.save(user).getFavorites().stream()
+                .map(Mapper::songInfoToDto)
+                .collect(Collectors.toList());
+    }
+
 
     @PreAuthorize("hasRole('USER')")
     public UserDto update(final User user) {
@@ -78,7 +105,7 @@ public class UserService implements UserDetailsService {
                 () -> new UserException("Can't update. User not found!")
         );
         this.userRepository.save(user);
-        return ToDtoConverter.userToDto(user);
+        return Mapper.userToDto(user);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -87,7 +114,7 @@ public class UserService implements UserDetailsService {
                 () -> new UserException("Can't deactivate. User not found!")
         );
         user.setIsActive(false);
-        return ToDtoConverter.userToDto(user);
+        return Mapper.userToDto(user);
     }
 
 
