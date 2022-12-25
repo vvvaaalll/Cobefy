@@ -1,5 +1,6 @@
 package hr.cobenco.Cobefy.service;
 
+import hr.cobenco.Cobefy.dto.Mapper;
 import hr.cobenco.Cobefy.dto.PostSongInfoDto;
 import hr.cobenco.Cobefy.dto.SongInfoDto;
 import hr.cobenco.Cobefy.dto.SongInfoUpdateDto;
@@ -32,12 +33,15 @@ public class SongInfoService {
     @PreAuthorize("hasRole('ADMIN')")
     public SongInfoDto patch(final long id, final SongInfoUpdateDto songInfoUpdateDto) throws RuntimeException {
         return mapEntityToSongInfoDto(this.songInfoRepository
-                .save(mapUpdateSongInfoDtoToEntity(this.songInfoRepository.findById(id).orElseThrow(() -> new RuntimeException("song not found")), songInfoUpdateDto)));
+                .save(Mapper.mapUpdateSongInfoDtoToEntity(
+                        this.songInfoRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("song not found")), songInfoUpdateDto)));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     public void delete(final long id) throws RuntimeException {
-        songInfoRepository.delete(this.songInfoRepository.findById(id).orElseThrow(() -> new RuntimeException("No song with such ID")));
+        songInfoRepository.delete(this.songInfoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No song with such ID")));
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -71,14 +75,4 @@ public class SongInfoService {
 
         return songInfoDto;
     }
-
-    private SongInfo mapUpdateSongInfoDtoToEntity(final SongInfo songInfoEntity, final SongInfoUpdateDto songInfoUpdateDto) throws RuntimeException {
-        songInfoUpdateDto.getOptionalOfSongUrl().ifPresent(songInfoEntity::setSongUrl);
-        songInfoUpdateDto.getOptionalOfImageUrl().ifPresent(songInfoEntity::setImageUrl);
-        songInfoUpdateDto.getOptionalOfName().ifPresent(songInfoEntity::setName);
-        songInfoUpdateDto.getOptionalOfArtist().ifPresent(songInfoEntity::setArtist);
-
-        return songInfoEntity;
-    }
-
 }

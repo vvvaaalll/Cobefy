@@ -34,7 +34,7 @@ public class ImageStorageController {
         try {
             if (file.getContentType().contains("image")) {
                 message = String.valueOf(imageStorageService.store(file).getId());
-                return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+                return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(message));
             } else {
                 message = "Wrong file type";
                 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));

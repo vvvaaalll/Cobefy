@@ -1,5 +1,6 @@
 package hr.cobenco.Cobefy.model.user;
 
+import hr.cobenco.Cobefy.model.song.SongInfo;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,6 +43,12 @@ public class User {
     private Boolean isActive = true;
 
     private String avatarUrl;
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinTable(name = "favorites", joinColumns = {
+            @JoinColumn(name = "user_id")}, inverseJoinColumns = {
+            @JoinColumn(name = "song_id")})
+    private List<SongInfo> favorites;
 
     @NotNull
     private LocalDate dateOfSignUp = LocalDate.now();
