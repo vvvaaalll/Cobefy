@@ -5,7 +5,6 @@ import hr.cobenco.Cobefy.dto.SongInfoDto;
 import hr.cobenco.Cobefy.dto.SongInfoUpdateDto;
 import hr.cobenco.Cobefy.message.ResponseMessage;
 import hr.cobenco.Cobefy.service.SongInfoService;
-import hr.cobenco.Cobefy.service.SongStorageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +20,6 @@ import java.util.List;
 @RequestMapping("/api/song")
 @RequiredArgsConstructor
 public class SongController {
-
-    private final SongStorageService songStorageService;
     private final SongInfoService songInfoService;
 
     @Operation(description = "Create song by providing link from song storage",

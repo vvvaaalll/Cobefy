@@ -87,17 +87,22 @@ public class UserService implements UserDetailsService {
     }
 
     @PreAuthorize("hasRole('USER')")
-    public List<SongInfoDto> addToFavorites(final Long userId, final Long songId) {
+    public void addToFavorites(final Long userId, final SongInfoDto songInfoDto) {
         User user = this.userRepository.findById(userId).orElseThrow(
                 () -> new UserException("Can't get. User not found!")
         );
-         user.getFavorites().add(Mapper.songInfoDtoToEntity(songInfoService.getById(songId)));
-
-         return this.userRepository.save(user).getFavorites().stream()
-                .map(Mapper::songInfoToDto)
-                .collect(Collectors.toList());
+         user.getFavorites().add(Mapper.songInfoDtoToEntity(songInfoDto));
+         userRepository.save(user);
     }
 
+    @PreAuthorize("hasRole('USER')")
+    public void removeFromFavorites(final Long userId, final SongInfoDto songInfoDto) {
+        User user = this.userRepository.findById(userId).orElseThrow(
+                () -> new UserException("Can't get. User not found!")
+        );
+        user.getFavorites().remove(Mapper.songInfoDtoToEntity(songInfoDto));
+        userRepository.save(user);
+    }
 
     @PreAuthorize("hasRole('USER')")
     public UserDto update(final User user) {

@@ -55,4 +55,13 @@ public final class Mapper {
 
     }
 
+    public static SongInfo mapUpdateSongInfoDtoToEntity(final SongInfo songInfoEntity, final SongInfoUpdateDto songInfoUpdateDto) throws RuntimeException {
+        songInfoUpdateDto.getOptionalOfSongUrl().ifPresent(songInfoEntity::setSongUrl);
+        songInfoUpdateDto.getOptionalOfImageUrl().ifPresent(songInfoEntity::setImageUrl);
+        songInfoUpdateDto.getOptionalOfName().ifPresent(songInfoEntity::setName);
+        songInfoUpdateDto.getOptionalOfArtist().ifPresent(songInfoEntity::setArtist);
+
+        return songInfoEntity;
+    }
+
 }
