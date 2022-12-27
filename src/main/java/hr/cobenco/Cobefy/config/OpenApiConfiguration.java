@@ -43,7 +43,7 @@ public class OpenApiConfiguration {
     @Bean
     public GroupedOpenApi publicApiSongFiles() {
         return GroupedOpenApi.builder()
-                .group("Song Files Management")
+                .group("Song files management")
                 .pathsToMatch("/api/song-file/**")
                 .build();
     }
@@ -51,7 +51,7 @@ public class OpenApiConfiguration {
     @Bean
     public GroupedOpenApi publicApiImageFiles() {
         return GroupedOpenApi.builder()
-                .group("Image Files Management")
+                .group("Image files management")
                 .pathsToMatch("/api/image-file/**")
                 .build();
     }
@@ -70,6 +70,15 @@ public class OpenApiConfiguration {
         return GroupedOpenApi.builder()
                 .group("Authentication")
                 .pathsToMatch("/api/token/**")
+
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi favoritesApi() {
+        return GroupedOpenApi.builder()
+                .group("Song favorites")
+                .pathsToMatch("/api/users/*/favorites")
 
                 .build();
     }
