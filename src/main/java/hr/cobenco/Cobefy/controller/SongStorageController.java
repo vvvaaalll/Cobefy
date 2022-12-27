@@ -4,6 +4,7 @@ import hr.cobenco.Cobefy.dto.SongFileDto;
 import hr.cobenco.Cobefy.message.ResponseMessage;
 import hr.cobenco.Cobefy.model.storage.SongFile;
 import hr.cobenco.Cobefy.service.SongStorageService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -26,6 +27,8 @@ public class SongStorageController {
     private final SongStorageService songStorageService;
 
 
+    @Operation(description = "Upload song",
+            summary = "Upload song file to sound file storage service. Requires Admin rights.")
     @ResponseBody
     @PostMapping(name = "/upload")
     public ResponseEntity<ResponseMessage> uploadSongFile(@RequestParam("file") MultipartFile file) {
@@ -44,6 +47,7 @@ public class SongStorageController {
         }
     }
 
+    @Operation(description = "Returns list of all song files", summary = "Returns list of all song files.")
     @ResponseBody
     @GetMapping(name = "/files")
     public ResponseEntity<List<SongFileDto>> getListOfSongFiles() {
@@ -65,6 +69,7 @@ public class SongStorageController {
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
+    @Operation(description = "Returns song file", summary = "Returns song file found by id.")
     @ResponseBody
     @GetMapping("/files/{id}")
     public ResponseEntity<byte[]> getSongFile(@PathVariable long id) {
@@ -76,9 +81,10 @@ public class SongStorageController {
                 .body(songFile.getData());
     }
 
+    @Operation(description = "Deletes song file", summary = "Deletes song file by id. Requires Admin rights.")
     @ResponseBody
     @DeleteMapping("/files/{id}/delete")
-    public ResponseEntity<ResponseMessage> deleteImageFile(@PathVariable long id) {
+    public ResponseEntity<ResponseMessage> deleteSongFile(@PathVariable long id) {
         String message = "";
         try {
 

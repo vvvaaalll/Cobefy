@@ -23,7 +23,7 @@ public class SongController {
     private final SongInfoService songInfoService;
 
     @Operation(description = "Create song by providing link from song storage",
-            summary = "Create song by providing link from song storage")
+            summary = "Create song by providing link from song storage. Requires Admin role")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,7 +55,7 @@ public class SongController {
         return songInfoService.getById(id);
     }
 
-    @Operation(description = "Delete song by ID", summary = "deletes song found by ID")
+    @Operation(description = "Delete song by ID", summary = "Deletes song found by ID. Requires Admin role")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     @DeleteMapping(path = "/{id}", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,7 +63,7 @@ public class SongController {
         songInfoService.delete(id);
     }
 
-    @Operation(description = "Update song info", summary = "change song info")
+    @Operation(description = "Update song info", summary = "Change song info. Requires Admin role.")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @PatchMapping(path = "/patch/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -45,19 +45,32 @@ public class UserService implements UserDetailsService {
         this.userRepository.save(user);
     }
 
+    @PreAuthorize("hasRole('USER')")
+    public void deleteUser(final long userId) {
+        User user = this.userRepository.findById(userId).orElseThrow(
+                () -> new UserException("Can't get. User not found!")
+        );
+        this.userRepository.delete(user);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
-    public void createAdmin() {
-        User adminAccount = new User();
-        adminAccount.setUsername("admin");
-        adminAccount.setPassword(bCryptPasswordEncoder.encode(("admin")));
-        adminAccount.setEmail("email@admin.com");
+    public UserDto createAdmin(final long userId) {
+        User user = this.userRepository.findById(userId).orElseThrow(
+                () -> new UserException("Can't get. User not found!")
+        );
         Role adminRole = roleRepository.findRoleByName("ADMIN");
-        Role userRole = roleRepository.findRoleByName("USER");
-        Set<Role> roles = new HashSet<>();
-        roles.add(adminRole);
-        roles.add(userRole);
-        adminAccount.setRoles(roles);
-        this.userRepository.save(adminAccount);
+        user.getRoles().add(adminRole);
+        return Mapper.userToDto(this.userRepository.save(user));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public UserDto revokeAdmin(final long userId) {
+        User user = this.userRepository.findById(userId).orElseThrow(
+                () -> new UserException("Can't get. User not found!")
+        );
+        Role adminRole = roleRepository.findRoleByName("ADMIN");
+        user.getRoles().remove(adminRole);
+        return Mapper.userToDto(this.userRepository.save(user));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -114,11 +127,11 @@ public class UserService implements UserDetailsService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public UserDto deactivate(final Long id) {
+    public UserDto toggleActivateDeactivate(final Long id) {
         User user = this.userRepository.findById(id).orElseThrow(
                 () -> new UserException("Can't deactivate. User not found!")
         );
-        user.setIsActive(false);
+        user.setIsActive(!user.getIsActive());
         return Mapper.userToDto(user);
     }
 

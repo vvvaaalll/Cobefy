@@ -6,9 +6,11 @@ import hr.cobenco.Cobefy.model.user.AuthToken;
 import hr.cobenco.Cobefy.model.user.LoginUser;
 import hr.cobenco.Cobefy.security.TokenProvider;
 import hr.cobenco.Cobefy.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,6 +32,8 @@ public class AuthenticationController {
     @Autowired
     private UserService userService;
 
+
+    @Operation(description = "Generate user token", summary = "log in by providing username and password.")
     @RequestMapping(value = "/generate-token", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody LoginUser loginUser) throws AuthenticationException {
 
@@ -45,7 +49,8 @@ public class AuthenticationController {
         return ResponseEntity.ok(new AuthToken(token));
     }
 
-    //    @PreAuthorize("hasRole('USER')")
+    @Operation(description = "Returns current user", summary = "Returns currently logged in user.")
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/current-user")
     public ResponseEntity<UserDto> getCurrentUser() {
         UserDto userDto = Mapper.userToDto(userService.findOne(currentUsername));
