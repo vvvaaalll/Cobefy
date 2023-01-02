@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AuthDto {
 
-    @JsonProperty("Auth-token")
+    @JsonProperty("auth-token")
     private AuthToken token;
     @JsonProperty("user")
     private UserDto user;
