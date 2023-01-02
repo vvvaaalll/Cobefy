@@ -1,7 +1,7 @@
 package hr.cobenco.Cobefy.service;
 
-import hr.cobenco.Cobefy.dto.SongInfoDto;
 import hr.cobenco.Cobefy.dto.Mapper;
+import hr.cobenco.Cobefy.dto.SongInfoDto;
 import hr.cobenco.Cobefy.dto.UserDto;
 import hr.cobenco.Cobefy.exeptions.UserException;
 import hr.cobenco.Cobefy.model.user.Role;
@@ -30,8 +30,6 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-
-    private final SongInfoService songInfoService;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 

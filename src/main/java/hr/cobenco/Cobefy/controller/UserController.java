@@ -31,7 +31,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @Operation(description = "register new user", summary = "Register new user with provided attributes.")
+    @Operation(description = "delete user", summary = "Delete user by id.")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable final Long id) {
         this.userService.deleteUser(id);
