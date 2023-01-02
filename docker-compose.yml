@@ -15,9 +15,12 @@ networks:
 services:
 
   cobefy:
-    image: vvvaaalll/cobefy
-
+    image: cobenco-cobefy
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
+
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
 
     networks:
