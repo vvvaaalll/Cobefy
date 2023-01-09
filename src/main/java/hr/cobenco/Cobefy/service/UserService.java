@@ -7,6 +7,7 @@ import hr.cobenco.Cobefy.exeptions.UserException;
 import hr.cobenco.Cobefy.model.user.Role;
 import hr.cobenco.Cobefy.model.user.User;
 import hr.cobenco.Cobefy.repository.RoleRepository;
+import hr.cobenco.Cobefy.repository.SongInfoRepository;
 import hr.cobenco.Cobefy.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -31,6 +32,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final SongInfoService songInfoService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
@@ -88,30 +90,24 @@ public class UserService implements UserDetailsService {
     }
 
     @PreAuthorize("hasRole('USER')")
-    public List<SongInfoDto> getFavorites(final Long userId) {
-        User user = this.userRepository.findById(userId).orElseThrow(
-                () -> new UserException("Can't get. User not found!")
-        );
+    public List<SongInfoDto> getFavorites(final String userName) {
+        User user = userRepository.findByUsername(userName);
         return user.getFavorites().stream()
                 .map(Mapper::songInfoToDto)
                 .collect(Collectors.toList());
     }
 
     @PreAuthorize("hasRole('USER')")
-    public void addToFavorites(final Long userId, final SongInfoDto songInfoDto) {
-        User user = this.userRepository.findById(userId).orElseThrow(
-                () -> new UserException("Can't get. User not found!")
-        );
-         user.getFavorites().add(Mapper.songInfoDtoToEntity(songInfoDto));
-         userRepository.save(user);
+    public void addToFavorites(final Long songId, final String userName) {
+        User user = userRepository.findByUsername(userName);
+        user.getFavorites().add(Mapper.songInfoDtoToEntity(songInfoService.getById(songId)));
+        userRepository.save(user);
     }
 
     @PreAuthorize("hasRole('USER')")
-    public void removeFromFavorites(final Long userId, final SongInfoDto songInfoDto) {
-        User user = this.userRepository.findById(userId).orElseThrow(
-                () -> new UserException("Can't get. User not found!")
-        );
-        user.getFavorites().remove(Mapper.songInfoDtoToEntity(songInfoDto));
+    public void removeFromFavorites(final Long songId, final String userName) {
+        User user = userRepository.findByUsername(userName);
+        user.getFavorites().remove(Mapper.songInfoDtoToEntity(songInfoService.getById(songId)));
         userRepository.save(user);
     }
 
