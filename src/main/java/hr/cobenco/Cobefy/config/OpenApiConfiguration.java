@@ -78,7 +78,7 @@ public class OpenApiConfiguration {
     public GroupedOpenApi favoritesApi() {
         return GroupedOpenApi.builder()
                 .group("Song favorites")
-                .pathsToMatch("/api/users/*/favorites")
+                .pathsToMatch("/api/favorites/**")
 
                 .build();
     }
